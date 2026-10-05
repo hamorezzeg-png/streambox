@@ -1,312 +1,45 @@
-```html
-<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StreamBox</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: #111;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-
-header {
-  height: 70px;
-  padding: 0 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #080808;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: #e50914;
-}
-
-nav {
-  display: flex;
-  gap: 25px;
-}
-
-nav a {
-  color: #ddd;
-  text-decoration: none;
-}
-
-nav a:hover {
-  color: white;
-}
-
-.search {
-  padding: 10px 15px;
-  border: 1px solid #555;
-  border-radius: 5px;
-  background: #222;
-  color: white;
-  width: 220px;
-}
-
-.hero {
-  min-height: 430px;
-  padding: 100px 7%;
-  display: flex;
-  align-items: center;
-  background:
-    linear-gradient(to right, #111 20%, transparent),
-    linear-gradient(to top, #111, transparent);
-}
-
-.hero-content {
-  max-width: 550px;
-}
-
-.hero h1 {
-  font-size: 52px;
-  margin-bottom: 15px;
-}
-
-.hero p {
-  color: #ccc;
-  line-height: 1.6;
-  margin-bottom: 25px;
-}
-
-.watch-button {
-  background: #e50914;
-  color: white;
-  border: none;
-  padding: 13px 25px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-section {
-  padding: 30px 5%;
-}
-
-section h2 {
-  margin-bottom: 20px;
-}
-
-.movies {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 18px;
-}
-
-.movie {
-  background: #1d1d1d;
-  border-radius: 7px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform .2s;
-}
-
-.movie:hover {
-  transform: scale(1.04);
-}
-
-.poster {
-  width: 100%;
-  height: 260px;
-  object-fit: cover;
-  background: #333;
-}
-
-.movie-info {
-  padding: 12px;
-}
-
-.movie-info h3 {
-  margin-bottom: 7px;
-}
-
-.movie-info p {
-  color: #999;
-  font-size: 13px;
-}
-
-#player {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.95);
-  z-index: 100;
-  padding: 5%;
-}
-
-#video {
-  width: 100%;
-  max-height: 80vh;
-  margin-top: 30px;
-}
-
-.close {
-  background: #e50914;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamBox - YouTube Video</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    h1 { color: #e50914; }
+    .video-container {
+      max-width: 900px;
+      margin: 30px auto;
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
 </head>
-
 <body>
-
-<header>
-  <div class="logo">StreamBox</div>
-
-  <nav>
-    <a href="#">Home</a>
-    <a href="#movies">Movies</a>
-    <a href="#series">Series</a>
-  </nav>
-
-  <input
-    id="search"
-    class="search"
-    type="text"
-    placeholder="Search..."
-    oninput="searchMovies()"
-  >
-</header>
-
-<div class="hero">
-  <div class="hero-content">
-    <h1>Welcome to StreamBox</h1>
-    <p>
-      Watch movies and series from your personal,
-      licensed, or public-domain collection.
-    </p>
-
-    <button class="watch-button" onclick="openMovie(0)">
-      ▶ Watch Demo
-    </button>
+  <h1>StreamBox</h1>
+  <h2>My YouTube Video</h2>
+  <div class="video-container">
+    <iframe
+      src="https://www.youtube.com/embed/SAxAUuVRMQc"
+      title="YouTube Video"
+      allowfullscreen>
+    </iframe>
   </div>
-</div>
-
-<section id="movies">
-  <h2>Movies</h2>
-
-  <div class="movies" id="movieGrid">
-
-    <div class="movie" data-title="Demo Movie"
-         onclick="openMovie(0)">
-      <img class="poster"
-        src="https://picsum.photos/300/450?random=1">
-      <div class="movie-info">
-        <h3>Demo Movie</h3>
-        <p>2026 • Drama</p>
-      </div>
-    </div>
-
-    <div class="movie" data-title="Adventure"
-         onclick="openMovie(1)">
-      <img class="poster"
-        src="https://picsum.photos/300/450?random=2">
-      <div class="movie-info">
-        <h3>Adventure</h3>
-        <p>2026 • Adventure</p>
-      </div>
-    </div>
-
-    <div class="movie" data-title="The Journey"
-         onclick="openMovie(2)">
-      <img class="poster"
-        src="https://picsum.photos/300/450?random=3">
-      <div class="movie-info">
-        <h3>The Journey</h3>
-        <p>2026 • Action</p>
-      </div>
-    </div>
-
-    <div class="movie" data-title="Night"
-         onclick="openMovie(3)">
-      <img class="poster"
-        src="https://picsum.photos/300/450?random=4">
-      <div class="movie-info">
-        <h3>Night</h3>
-        <p>2026 • Thriller</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div id="player">
-
-  <button class="close" onclick="closePlayer()">
-    ✕ Close
-  </button>
-
-  <video id="video" controls>
-    <source id="videoSource" src="" type="video/mp4">
-    Your browser does not support video playback.
-  </video>
-
-</div>
-
-<script>
-const videos = [
-  "https://www.w3schools.com/html/mov_bbb.mp4",
-  "https://www.w3schools.com/html/mov_bbb.mp4",
-  "https://www.w3schools.com/html/mov_bbb.mp4",
-  "https://www.w3schools.com/html/mov_bbb.mp4"
-];
-
-function openMovie(index) {
-  const player = document.getElementById("player");
-  const video = document.getElementById("video");
-  const source = document.getElementById("videoSource");
-
-  source.src = videos[index];
-  video.load();
-
-  player.style.display = "block";
-  video.play();
-}
-
-function closePlayer() {
-  const player = document.getElementById("player");
-  const video = document.getElementById("video");
-
-  video.pause();
-  player.style.display = "none";
-}
-
-function searchMovies() {
-  const query =
-    document.getElementById("search").value.toLowerCase();
-
-  const movies =
-    document.querySelectorAll(".movie");
-
-  movies.forEach(movie => {
-    const title =
-      movie.dataset.title.toLowerCase();
-
-    movie.style.display =
-      title.includes(query) ? "block" : "none";
-  });
-}
-</script>
-
 </body>
 </html>
-```
+"""
+path = "/mnt/data/youtube.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html)
+print(path)
